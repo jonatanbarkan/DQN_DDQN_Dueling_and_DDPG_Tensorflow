@@ -28,12 +28,7 @@ print "  ",sys.argv[0]," [optional: path_to_ckpt_file] [optional: True/False tes
 print
 print
 
-
-
-
 outdir = "gym_results"
-
-
 
 ENV_NAME = 'Pendulum-v0' # BipedalWalker-v2
 TOTAL_FRAMES = 200000 ## TRAIN
@@ -53,26 +48,20 @@ TRAIN_AFTER_FRAMES = 50000
 epoch_size = 50000 # every how many frames to test
 """
 
-
 MAX_NOOP_START = 0
-
 
 LOG_DIR = outdir+'/'+ENV_NAME+'/logs/'
 if os.path.isdir(LOG_DIR):
 	shutil.rmtree(LOG_DIR)
 journalist = tf.train.SummaryWriter(LOG_DIR)
 
-
-
 # Build environment
 env = gym.make(ENV_NAME)
-
 
 # Initialize Tensorflow session
 config = tf.ConfigProto()
 config.gpu_options.allow_growth=True
 session = tf.InteractiveSession(config=config)
-
 
 # Create DQN agent
 agent = DDPG(state_size=env.observation_space.shape,
@@ -89,7 +78,6 @@ agent = DDPG(state_size=env.observation_space.shape,
 #			reward_clipping = 1.0)
 
 
-
 session.run(tf.initialize_all_variables())
 journalist.add_graph(session.graph)
 
@@ -102,13 +90,11 @@ logging.disable(logging.INFO)
 
 # If an argument is supplied, load the specific checkpoint.
 test_mode = False
-if len(sys.argv)>=2:
+if len(sys.argv) >= 2:
 	print sys.argv[1]
 	saver.restore(session, sys.argv[1])
-if len(sys.argv)==3:
+if len(sys.argv) == 3:
 	test_mode = bool(sys.argv[2])
-
-
 
 num_frames = 0
 num_games = 0

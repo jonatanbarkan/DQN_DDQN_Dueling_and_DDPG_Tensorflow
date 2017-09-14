@@ -6,12 +6,8 @@ import os
 import sys
 
 import tensorflow as tf
-
 import gc
 gc.enable()
-
-
-
 from modules.dqn import *
 from modules.env_utils import *
 
