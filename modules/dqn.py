@@ -15,17 +15,17 @@ class DQN(object):
 
     reward_clipping: any negative number disables rewards clipping. Positive numbers mean that the rewards will be clipped to be in [-reward_clipping, reward_clipping]
     """
-    def __init__(self, state_size, action_size, session, summary_writer = None, exploration_period = 1000, minibatch_size = 32, discount_factor = 0.99,
-                 experience_replay_buffer = 10000, target_qnet_update_frequency = 10000, initial_exploration_epsilon = 1.0, final_exploration_epsilon = 0.05,
-                 reward_clipping = -1, DoubleDQN=False):
+    def __init__(self, state_size, action_size, session, summary_writer = None, exploration_period=1000, minibatch_size=32, discount_factor=0.99,
+                 experience_replay_buffer=10000, target_qnet_update_frequency = 10000, initial_exploration_epsilon=1.0, final_exploration_epsilon=0.05,
+                 reward_clipping=-1, DoubleDQN=False):
 
         # Setup the parameters, data structures and networks
-        self.state = tf.placeholder(tf.float32, (None,)+self.state_size , name="state")
+        self.state = tf.placeholder(tf.float32, (None,)+self.state_size, name="state")
         self.q_values = tf.identity(self.qnet(self.state) , name="q_values")
-        self.predicted_actions = tf.argmax(self.q_values, dimension=1 , name="predicted_actions")
-        self.next_state = tf.placeholder(tf.float32, (None,)+self.state_size , name="next_state")
-        self.next_state_mask = tf.placeholder(tf.float32, (None,) , name="next_state_mask") # 0 for terminal states
-        self.rewards = tf.placeholder(tf.float32, (None,) , name="rewards")
+        self.predicted_actions = tf.argmax(self.q_values, dimension=1, name="predicted_actions")
+        self.next_state = tf.placeholder(tf.float32, (None,)+self.state_size, name="next_state")
+        self.next_state_mask = tf.placeholder(tf.float32, (None,), name="next_state_mask")  # 0 for terminal states
+        self.rewards = tf.placeholder(tf.float32, (None,), name="rewards")
         self.next_q_values_targetqnet = tf.stop_gradient(self.target_qnet(self.next_state), name="next_q_values_targetqnet")
         self.next_q_values_qnet = tf.stop_gradient(self.qnet(self.next_state), name="next_q_values_qnet")
         self.next_selected_actions = tf.argmax(self.next_q_values_qnet, dimension=1)

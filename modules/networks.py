@@ -295,12 +295,6 @@ class QNetworkDueling(QNetwork):
 		return self.h_fc6
 
 
-
-
-
-
-
-
 class ActorCritic_MLP(QNetwork):
 	def __init__(self, input_size, output_size, actor_or_critic, name):
 		"""
